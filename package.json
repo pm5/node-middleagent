@@ -1,0 +1,25 @@
+{
+  "name": "middleagent",
+  "version": "0.0.0",
+  "description": "Middleware HTTP client for node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "web",
+    "http",
+    "client",
+    "framework",
+    "middleware"
+  ],
+  "author": "Pomin Wu <pomin5@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "co": "^4.5.1"
+  },
+  "devDependencies": {
+    "chai": "^2.2.0",
+    "mocha": "^2.2.1"
+  }
+}
