@@ -1,16 +1,24 @@
 'use strict'
 
-var co = require('co')
+var co = require('co'),
+    http = require('http')
 
-module.exports = middleagent = function () {
-  return agent
+function Agent () {
 }
 
-agent.use = function (mw) {
+module.exports = function () {
+  return new Agent()
 }
 
-agent.get = function (url) {
+Agent.prototype.use = function (mw) {
+  return this
 }
 
-agent.post = function (url) {
+Agent.prototype.get = function (path, mw) {
+  http.get(path, function (err, res) {
+    co(function * () {
+      yield mw
+    })
+  })
+  return this
 }

@@ -4,7 +4,8 @@
   "description": "Middleware HTTP client for Node.js",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --harmony",
+    "dev": "npm test -- -w"
   },
   "keywords": [
     "web",
