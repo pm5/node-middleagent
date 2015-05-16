@@ -1,7 +1,7 @@
 {
   "name": "middleagent",
   "version": "0.0.0",
-  "description": "Middleware HTTP client for node.js",
+  "description": "Middleware HTTP client for Node.js",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
