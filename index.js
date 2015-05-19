@@ -1,7 +1,8 @@
 'use strict'
 
 var co = require('co'),
-    http = require('http')
+    http = require('http'),
+    debug = require('debug')('middleagent')
 
 function Agent () {
 }
@@ -15,10 +16,17 @@ Agent.prototype.use = function (mw) {
 }
 
 Agent.prototype.get = function (path, mw) {
-  http.get(path, function (err, res) {
-    co(function * () {
+  return new Promise(function (resolve, reject) {
+    http.get(path, function (res) {
+      return resolve(res)
+    })
+    .on('error', function (err) {
+      debug('http error')
+      return reject(err)
+    })
+  }).then(function (res) {
+    return co(function * () {
       yield mw
     })
   })
-  return this
 }

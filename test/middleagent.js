@@ -18,14 +18,35 @@ describe('Middleagent', function () {
   })
 
   it('can do HTTP GET', function (done) {
-    agent.get('http://example.com', function* () {
+    agent.get('http://example.com', function * () {
       done()
-    })
+    }).catch(done)
+  })
+
+  it('can throw error in middleware', function (done) {
+    agent.get('http://example.com', function * () {
+      throw 'I am an error!!!'
+    }).catch(function (err) {
+      expect(err).to.equal('I am an error!!!')
+    }).then(done, done)
+  })
+
+  it('can catch error from http', function (done) {
+    agent.get('http://barbapapa.garbodigu')
+      .catch(function (err) {
+        expect(err).to.be.ok
+      })
+      .then(done, done)
   })
 
   //it('can use middleware', function(done) {
-    //agent.use(testHeader('foobar'))
-      //.get('http://example.com', function* () {
+    //var runned = false
+    //agent
+      //.use(function * () {
+        //runned = true
+      //})
+      //.get('http://example.com', function * () {
+        //expect(runned).to.be.true
         //done()
       //})
   //})
