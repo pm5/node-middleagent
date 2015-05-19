@@ -39,15 +39,19 @@ describe('Middleagent', function () {
       .then(done, done)
   })
 
-  //it('can use middleware', function(done) {
-    //var runned = false
-    //agent
-      //.use(function * () {
-        //runned = true
-      //})
-      //.get('http://example.com', function * () {
-        //expect(runned).to.be.true
-        //done()
-      //})
-  //})
+  it('can use middleware', function(done) {
+    var runned = false,
+        got = false
+    agent
+      .use(function * (next) {
+        runned = true
+        yield next
+        expect(got).to.be.true
+      })
+      .get('http://example.com', function * () {
+        expect(runned).to.be.true
+        got = true
+      })
+      .then(done, done)
+  })
 })
