@@ -19,7 +19,7 @@ Agent.prototype.use = function (mw) {
 
 Agent.prototype.get = function (path, mw) {
   var that = this
-  this.use(mw)
+  if (mw) this.use(mw)
   return new Promise(function (resolve, reject) {
     http.get(path, function (res) {
       return resolve(res)
@@ -29,6 +29,7 @@ Agent.prototype.get = function (path, mw) {
       return reject(err)
     })
   }).then(function (res) {
+    if (that._mw.length == 0) return res
     var m = that._mw.map((w, i, arr) => w(arr.length === i + 1 ? null : arr[i + 1]))
     return co(function * () {
       m[0].next()

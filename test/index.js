@@ -16,11 +16,19 @@ describe('Middleagent', function () {
     }).catch(done)
   })
 
+  it('can give promise', function (done) {
+    agent.get('http://example.com')
+      .then(function (res) {
+        expect(res.headers).to.be.ok
+      })
+      .then(done, done)
+  })
+
   it('can throw error in middleware', function (done) {
     agent.get('http://example.com', function * () {
       throw new Error('I am an error!!!')
     }).catch(function (err) {
-      expect(err.toString()).to.equal('I am an error!!!')
+      expect(err.toString()).to.equal('Error: I am an error!!!')
     }).then(done, done)
   })
 
