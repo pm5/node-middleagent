@@ -1,7 +1,8 @@
 'use strict'
 
 var middleagent = require('../')
-var expect = require('chai').expect
+var expect = require('chai').expect,
+    debug = require('debug')('middleagent:test')
 
 describe('Middleagent', function () {
   var agent
@@ -54,5 +55,14 @@ describe('Middleagent', function () {
         got = true
       })
       .then(done, done)
+  })
+
+  it('can access request and response by context', function (done) {
+    agent.use(function * (next) {
+      expect(this.request.end).to.be.ok
+      yield next
+      expect(this.response.statusCode).to.equal(200)
+    }).get('http://example.com')
+    .then(done, done)
   })
 })
