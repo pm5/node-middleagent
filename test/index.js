@@ -3,17 +3,10 @@
 var middleagent = require('../')
 var expect = require('chai').expect
 
-function testHeader(testString) {
-  return function* (next) {
-    this.req.header('X-Test', testString)
-    yield* next
-  }
-}
-
 describe('Middleagent', function () {
   var agent
 
-  beforeEach(function() {
+  beforeEach(function () {
     agent = middleagent()
   })
 
@@ -25,9 +18,9 @@ describe('Middleagent', function () {
 
   it('can throw error in middleware', function (done) {
     agent.get('http://example.com', function * () {
-      throw 'I am an error!!!'
+      throw new Error('I am an error!!!')
     }).catch(function (err) {
-      expect(err).to.equal('I am an error!!!')
+      expect(err.toString()).to.equal('I am an error!!!')
     }).then(done, done)
   })
 
@@ -39,7 +32,7 @@ describe('Middleagent', function () {
       .then(done, done)
   })
 
-  it('can use middleware', function(done) {
+  it('can use middleware', function (done) {
     var runned = false,
         got = false
     agent
