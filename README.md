@@ -23,3 +23,8 @@ agent.use(function * (next) {
   // handle errors
 })
 ```
+
+License
+-------
+
+[MIT license](http://pm5.mit-license.org/)
