@@ -23,5 +23,13 @@
     "chai": "^2.2.0",
     "debug": "^2.2.0",
     "mocha": "^2.2.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:pm5/node-middleagent.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pm5/node-middleagent/issues"
+  },
+  "homepage": "https://github.com/pm5/node-middleagent"
 }
