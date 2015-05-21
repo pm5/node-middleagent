@@ -2,7 +2,10 @@
 
 var co = require('co'),
     http = require('http'),
-    debug = require('debug')('middleagent')
+    debug = require('debug')('middleagent:core')
+
+var Request = require('./request'),
+    Response = require('./response')
 
 function Agent () {
   this._mw = []
@@ -21,14 +24,15 @@ Agent.prototype.get = function (path, mw) {
   var context = this
   if (mw) this.use(mw)
   return new Promise(function (resolve, reject) {
-    context.request = http.get(path, function (res) {
-      context.response = res
+    var req = http.get(path, function (res) {
+      context.response = new Response(res)
       return resolve(res)
     })
     .on('error', function (err) {
       debug('http error: %s', err)
       return reject(err)
     })
+    context.request = new Request(req)
   }).then(function (res) {
     if (context._mw.length == 0) return res
     var m = context._mw.map((w, i, arr) => w.apply(context, arr.length === i + 1 ? null : arr[i + 1]))

@@ -19,8 +19,8 @@ describe('Middleagent', function () {
 
   it('can give promise', function (done) {
     agent.get('http://example.com')
-      .then(function (res) {
-        expect(res.headers).to.be.ok
+      .then(function (context) {
+        expect(context.response.header).to.be.ok
       })
       .then(done, done)
   })
@@ -42,24 +42,30 @@ describe('Middleagent', function () {
   })
 
   it('can use middleware', function (done) {
-    var runned = false,
-        got = false
+    var queue = []
     agent
       .use(function * (next) {
-        runned = true
+        debug('enter middleware 1')
+        queue.push(1)
         yield next
-        expect(got).to.be.true
+        queue.push(1)
+        debug('exit middleware 1')
       })
       .get('http://example.com', function * () {
-        expect(runned).to.be.true
-        got = true
+        debug('enter middleware 2')
+        queue.push(2)
+        debug('exit middleware 2')
       })
-      .then(done, done)
+      .then(function () {
+        expect(queue).to.eql([1,2,1])
+        done()
+      })
+      .catch(done)
   })
 
   it('can access request and response by context', function (done) {
     agent.use(function * (next) {
-      expect(this.request.end).to.be.ok
+      expect(this.request.header).to.be.ok
       yield next
       expect(this.response.statusCode).to.equal(200)
     }).get('http://example.com')
