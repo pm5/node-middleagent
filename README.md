@@ -1,7 +1,7 @@
 Middleagent
 ===========
 
-Middleware HTTP client for Node.js
+HTTP client for Node.js with Koa-like middleware interface
 
 Usage
 -----
@@ -17,7 +17,7 @@ agent.use(function * (next) {
   // do something with this.response in the cascading
 }).get('http://example.com', function * () {
   // do something in the cascading
-}).then(function (res) {
+}).then(function (context) {
   // do something
 }, function (err) {
   // handle errors

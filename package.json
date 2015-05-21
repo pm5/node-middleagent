@@ -1,7 +1,7 @@
 {
   "name": "middleagent",
   "version": "0.0.2",
-  "description": "Middleware HTTP client for Node.js",
+  "description": "HTTP client for Node.js with Koa-like middleware interface",
   "main": "index.js",
   "scripts": {
     "test": "mocha --harmony",
