@@ -48,16 +48,28 @@ describe('Middleagent', function () {
         debug('enter middleware 1')
         queue.push(1)
         yield next
-        queue.push(1)
+        queue.push(5)
         debug('exit middleware 1')
       })
-      .get('http://example.com', function * () {
+      .use(function * (next) {
         debug('enter middleware 2')
-        queue.push(2)
+        yield next
+        queue.push(4)
         debug('exit middleware 2')
       })
+      .use(function * (next) {
+        debug('enter middleware 3')
+        queue.push(2)
+        yield next
+        debug('exit middleware 3')
+      })
+      .get('http://example.com', function * () {
+        debug('enter middleware tail')
+        queue.push(3)
+        debug('exit middleware tail')
+      })
       .then(function () {
-        expect(queue).to.eql([1,2,1])
+        expect(queue).to.eql([1,2,3,4,5])
         done()
       })
       .catch(done)
@@ -67,7 +79,7 @@ describe('Middleagent', function () {
     agent.use(function * (next) {
       expect(this.request.header).to.be.ok
       yield next
-      expect(this.response.statusCode).to.equal(200)
+      expect(this.response.statusCode()).to.equal(200)
     }).get('http://example.com')
     .then(done, done)
   })
