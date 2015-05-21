@@ -34,7 +34,7 @@ Agent.prototype.get = function (path, mw) {
     })
     context.request = new Request(req)
   }).then(function (context) {
-    if (context._mw.length == 0) return context
+    if (context._mw.length === 0) return context
     var m = context._mw
       .reduceRight((next, cur) => function * () {
         for (let i of cur.call(context, next)) {
