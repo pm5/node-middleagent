@@ -4,8 +4,8 @@ var co = require('co'),
     http = require('http'),
     debug = require('debug')('middleagent:core')
 
-var Request = require('./request'),
-    Response = require('./response')
+var Request = require('./lib/request'),
+    Response = require('./lib/response')
 
 function Agent () {
   this._mw = []
